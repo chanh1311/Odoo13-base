@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_excel_template_tree" model="ir.ui.view">
+        <field name="name">excel.template.tree</field>
+        <field name="model">excel.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="model_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_excel_template_form" model="ir.ui.view">
+        <field name="name">excel.template.form</field>
+        <field name="model">excel.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="report_name"/>
+                        </group>
+                        <group>
+                            <field name="fname" invisible="1"/>
+                            <field name="datas" filename="fname"/>
+                            <field name="per_sheet"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Export">
+                            <field name="detail_ids">
+                                <tree editable="bottom">
+                                    <control>
+                                        <create string="Add header section"
+                                                context="{'default_section_type': 'head', 'default_row_field': '_HEAD_'}"/>
+                                        <create string="Add row section" context="{'default_section_type': 'row'}"/>
+                                        <create string="Add data column" context="{'default_section_type': 'data'}"/>
+                                    </control>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="section_type" invisible="1"/>
+                                    <field name="row_field" attrs="{'required': [('section_type', 'in', ('head', 'row'))],
+                                                                    'invisible': [('section_type', 'not in', ('head', 'row'))]}"/>
+                                    <field name="excel_cell" attrs="{'required': [('section_type', '=', 'data')],
+                                        'invisible': [('section_type', '!=', 'data')]}"/>
+                                    <field name="field_name" attrs="{'invisible': [('section_type', '!=', 'data')]}"/>
+                                    <field name="merge_cell" attrs="{'invisible': [('section_type', '!=', 'data')]}"/>
+                                    <field name="is_sum" attrs="{'invisible': [('section_type', '!=', 'data')]}"/>
+                                </tree>
+                            </field>
+                            <div style="margin-top: 4px;">
+                                <h3>Help with Export Instruction</h3>
+                                <p>
+                                    Export Instruction is how to write data from an active data record to specified
+                                    cells in excel sheet.
+                                    The record itself will be mapped to the excel cell in the excel sheet.
+                                    The record can contain multiple one2many fields, which will be written as data
+                                    lines.
+                                    You can look at following instruction as Excel Sheet(s), each with 1 header section
+                                    (_HEAD_) and multiple row sections (one2many fields).
+                                </p>
+                                <ul>
+                                    <li>In header section part, map data fields (e.g., number, partner_id.name).
+                                        Header value is from parent model.</li>
+                                    <li>In row section, data list will be rolled out from one2many row field (e.g.,
+                                        order_line), and map data field (i.e., product_id.name, uom_id.name, qty).</li>
+                                </ul>
+                                <p>Following are more explaination on each column:</p>
+                                <ul>
+                                    <li><b>Row Field</b>: Use _HEAD_ for the record itself, and one2many field (e.g.,
+                                        line_ids) for row data</li>
+                                    <li><b>Excel Cell</b>: Excel Cell, function will write data from this cell</li>
+                                    <li><b>Field Name</b>: Field of the record, e.g., product_id.uom_id.name. They are orm compliant.</li>
+                                </ul>
+                                <p>
+                                    <b>Note:</b>
+                                </p>
+                                <ul>
+                                    <li><b>Style</b>: function will copy style from previous row</li>
+                                    <li><b>Import many2one and one2many</b>: add header section and row section</li>
+                                    <li><b>Import multiple many2one</b>: add row section not header section.
+                                        Create Transient model and field many2many to store multiple many2one ids</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_excel_template_search" model="ir.ui.view">
+        <field name="name">excel.template.search</field>
+        <field name="model">excel.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name='name'/>
+                <field name='model_id'/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_excel_template" model="ir.actions.act_window">
+        <field name="name">Excel Templates</field>
+        <field name="res_model">excel.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"disable_menu": "filter,groupBy"}</field>
+    </record>
+</odoo>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--tree view-->
+    <!--ir session-->
+    <record id="view_sessions_tree" model="ir.ui.view">
+        <field name="name">ir.sessions.tree</field>
+        <field name="model">ir.sessions</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" delete="0" decoration-muted="not logged_in">
+                <field name="logged_in"/>
+                <field name="ip"/>
+                <field name="ip_location"/>
+                <field name="remote_tz"/>
+                <field name="multiple_sessions_block"/>
+                <field name="user_id"/>
+                <field name="date_login"/>
+                <field name="session_duration"/>
+                <field name="date_expiration"/>
+                <field name="date_logout"/>
+                <field name="logout_type"/>
+                <field name="user_kill_id"/>
+                <field name="unsuccessful_message"/>
+                <button name="action_close_session" string="Kill Session"
+                        type="object" icon="fa-remove" attrs="{'invisible':[('logged_in','=',False)]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--resource calendar-->
+    <record id="resource_calendar_form_inherit" model="ir.ui.view">
+        <field name="name">resource.calendar.form.inherit</field>
+        <field name="model">resource.calendar</field>
+        <field name="inherit_id" ref="resource.resource_calendar_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tz']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--form view-->
+    <record id="view_sessions_form" model="ir.ui.view">
+        <field name="name">ir.sessions.form</field>
+        <field name="model">ir.sessions</field>
+        <field name="arch" type="xml">
+            <form edit="0" create="0" delete="0">
+                <header>
+                    <button name="action_close_session" string="Kill Session"
+                            type="object" icon="fa-remove" attrs="{'invisible':[('logged_in','=',False)]}"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="logged_in"/>
+                        <field name="ip"/>
+                        <field name="ip_location"/>
+                        <field name="remote_tz"/>
+                        <field name="multiple_sessions_block"/>
+                        <field name="user_id"/>
+                        <field name="date_login"/>
+                        <field name="session_duration"/>
+                        <field name="date_expiration"/>
+                        <field name="date_logout"/>
+                        <field name="logout_type"/>
+                        <field name="user_kill_id"/>
+                        <field name="unsuccessful_message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--search view-->
+    <record id="view_sessions_search" model="ir.ui.view">
+        <field name="name">ir.sessions.search</field>
+        <field name="model">ir.sessions</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="logged_in"/>
+                <field name="ip"/>
+                <field name="ip_location"/>
+                <field name="remote_tz"/>
+                <field name="multiple_sessions_block"/>
+                <field name="user_id"/>
+                <field name="date_login"/>
+                <field name="logout_type"/>
+                <field name="date_logout"/>
+                <field name="user_kill_id"/>
+                <field name="session_duration"/>
+                <field name="unsuccessful_message"/>
+                <group expand="1" string="Group By">
+                    <filter name="user" string="User" context="{'group_by' : 'user_id'}"/>
+                    <filter name="login_date" string="Login Date" context="{'group_by' : 'date_login'}"/>
+                    <filter name="logout_date" string="Logout Date" context="{'group_by' : 'date_logout'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--action view-->
+    <record id="ir_session_action" model="ir.actions.act_window">
+        <field name="name">Session</field>
+        <field name="res_model">ir.sessions</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'disable_menu': 'filter'}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create" style="display:none"/>
+            <p style="display:none">None</p>
+        </field>
+    </record>
+</odoo>

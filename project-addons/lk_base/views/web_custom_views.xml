@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--hide select database odoo-->
+    <template id="web_login_custom" inherit_id="web.login">
+        <xpath expr="//form[hasclass('oe_login_form')]" position="replace">
+            <form class="oe_login_form " role="form" t-attf-action="/web/login" method="post"
+                  onsubmit="this.action = this.action + location.hash">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="form-group field-login">
+                    <label for="login">Login</label>
+                    <input type="text" name="login" t-att-value="login" id="login"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                           required="required" autofocus="autofocus" autocapitalize="off"/>
+                </div>
+                <div class="form-group field-password">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                           required="required" autocomplete="current-password"
+                           t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                </div>
+                <t t-if="login_recaptcha">
+                    <textarea name="field-recaptcha-response" id="field-recaptcha-response" class="d-none"/>
+                    <script t-attf-src="https://www.google.com/recaptcha/api.js?render={{ recaptcha_site_key }}"/>
+                    <script>
+                        grecaptcha.ready(function() {
+                        grecaptcha.execute('<t t-esc="recaptcha_site_key"/>', {action:
+                        'login'}).then(function(token) {
+                        document.getElementById('field-recaptcha-response').innerHTML = token;
+                        });
+                        });
+                    </script>
+                </t>
+                <p class="alert alert-danger" t-if="error">
+                    <t t-esc="error"/>
+                    <t t-if="reason1">
+                        <br/>
+                        <t t-esc="reason1"/>
+                        <br/>
+                        <t t-esc="reason2"/>
+                        <br/>
+                        <t t-esc="reason3"/>
+                    </t>
+                </p>
+                <p class="alert alert-success" t-if="message" role="status">
+                    <t t-esc="message"/>
+                </p>
+                <div t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-3'}}">
+                    <button type="submit" class="btn btn-primary btn-block">LOGIN</button>
+                    <div class="o_login_auth"/>
+                </div>
+                <input type="hidden" name="redirect" t-att-value="redirect"/>
+            </form><br/>
+        </xpath>
+    </template>
+
+    <!--remove odoo link in footer-->
+    <template id="brand_promotion_message_inherit" inherit_id="web.brand_promotion_message">
+        <xpath expr="//t[@t-raw][last()]" position="replace">
+        </xpath>
+    </template>
+</odoo>

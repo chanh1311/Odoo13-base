@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--kanban view-->
+        <record id="sample_kanban_view_kanban1" model="ir.ui.view">
+            <field name="name">sample.kanban.kanban</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_slide_kanban" quick_create="0" group_create="0" default_group_by="state"
+                        records_draggable="0" create="0" delete="0">
+                    <field name="id"/>
+                    <field name="title"/>
+                    <field name="no_view"/>
+                    <field name="image_128"/>
+                    <field name="is_feature"/>
+                    <field name="state"/>
+                    <field name="category_ids"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="no_answer"/>
+                    <field name="color"/>
+                    <field name="user_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="o_kanban_image_fill_left d-none d-md-block"
+                                     t-attf-style="background-image:url('#{kanban_image('sample.kanban', 'image_128', record.id.raw_value)}')">
+                                </div>
+                                <div class="oe_kanban_details d-flex flex-column">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="">
+                                            <field name="title"/>
+                                        </strong>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-6"><span class="fa fa-pencil mr-2"></span><field
+                                                name="author"/></span>
+                                        <span class="col-6"><span class="fa fa-clock-o mr-2"></span><field
+                                                name="create_date" widget="date"/></span>
+                                        <span class="col-6"><span class="fa fa-eye mr-2"></span><field
+                                                name="no_view"/></span>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-start">
+                                        <span t-attf-style="color: #{record.is_feature.raw_value ? 'gold' : ''}"
+                                              title="Featured" class="fa fa-star mr-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="sample_kanban_view_kanban2" model="ir.ui.view">
+            <field name="name">sample.kanban.kanban</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <kanban quick_create="0" group_create="0" records_draggable="0" create="0" delete="0">
+                    <field name="id"/>
+                    <field name="title"/>
+                    <field name="no_view"/>
+                    <field name="image_128"/>
+                    <field name="is_feature"/>
+                    <field name="state"/>
+                    <field name="category_ids"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="no_answer"/>
+                    <field name="color"/>
+                    <field name="user_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong>
+                                                <b><field name="title"/></b>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_tags_section mb-2">
+                                        <span class="oe_kanban_list_many2many">
+                                            <field name="category_ids" widget="many2many_tags"/>
+                                        </span>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <div class="o_kanban_record_bottom mt-auto d-flex justify-content-between align-items-end">
+                                            <span>
+                                                <i class="fa fa-clock-o mr-2" aria-label="Create Date" role="img"
+                                                   title="Create Date"/>
+                                                <field name="create_date" widget="date"/>
+                                            </span>
+                                            <span>
+                                                <i class="fa fa-eye mr-2" aria-label="File" role="img" title="View"/>
+                                                <field name="no_view"/>
+                                            </span>
+                                            <span>
+                                                <i class="fa fa-pencil mr-2" aria-label="Like" role="img"
+                                                   title="Author"/>
+                                                <field name="author"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="sample_kanban_view_kanban3" model="ir.ui.view">
+            <field name="name">sample.kanban.kanban</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_slide_kanban" quick_create="0" group_create="0"
+                        records_draggable="0" create="0" delete="0">
+                    <field name="id"/>
+                    <field name="title"/>
+                    <field name="no_view"/>
+                    <field name="image_128"/>
+                    <field name="is_feature"/>
+                    <field name="state"/>
+                    <field name="category_ids"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="no_answer"/>
+                    <field name="color"/>
+                    <field name="user_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="">
+                                                <field name="title"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <div class="row">
+                                            <div class="col-12 text-left">
+                                                <span class="fa fa-clock-o mr-2"></span>
+                                                <field name="from_date" widget="date"/>
+                                                <span class="fa fa-arrow-right mr-2"></span>
+                                                <field name="to_date" widget="date"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" t-if="record.author.raw_value">
+                                            <div class="col-12 text-left">
+                                                <span class="fa fa-pencil mr-2"></span>
+                                                <field name="author"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mt16 mb16">
+                                            <div class="col-4 border-right">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <span class="font-weight-bold"><field name="no_user"/></span>
+                                                    <span class="text-muted">Users</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 border-right">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <span class="font-weight-bold"><field name="no_like"/></span>
+                                                    <span class="text-muted">Likes</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <span class="font-weight-bold"><field name="no_answer"/></span>
+                                                    <span class="text-muted">Answers</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="sample_kanban_view_kanban4" model="ir.ui.view">
+            <field name="name">sample.kanban.kanban</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_slide_kanban" quick_create="0" group_create="0" records_draggable="0" create="0" delete="0">
+                    <field name="id"/>
+                    <field name="title"/>
+                    <field name="no_view"/>
+                    <field name="image_128"/>
+                    <field name="is_feature"/>
+                    <field name="state"/>
+                    <field name="category_ids"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="no_answer"/>
+                    <field name="color"/>
+                    <field name="user_id"/>
+                    <templates>
+                        <div t-name="kanban-box" t-attf-class="oe_kanban_global_click {{kanban_color(record.color.raw_value)}}">
+                            <div class="oe_kanban_main">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <div class="o_kanban_record_title">
+                                            <span t-attf-style="color: #{record.is_feature.raw_value ? 'gold' : ''}"
+                                              title="Featured" class="fa fa-star mr-2"></span>
+                                            <span class="pl-4"><field name="title"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <em><field name="create_date" widget="date"/></em>
+                                    <field name="category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left w-50">
+                                        <button name="send_request" type="object" class="btn btn-primary btn-sm mt8">Send</button>
+                                        <button name="sign_now" type="object" class="btn btn-primary btn-sm mt8">Sign Now</button>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div class="float-right mt8">
+                                            <span class="mr-2"
+                                                  title="Number of documents in progress for this template.">
+                                                <span class="fa fa-hourglass-half"/>
+                                                <field name="no_user"/>
+                                            </span>
+                                            <span class="mr-2" title="Number of documents signed for this template.">
+                                                <span class="fa fa-check ml-1"/>
+                                                <field name="no_like"/>
+                                            </span>
+                                        </div>
+                                        <img t-att-src="kanban_image('res.users', 'image_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value" class="oe_kanban_avatar"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="sample_kanban_view_kanban5" model="ir.ui.view">
+            <field name="name">sample.kanban.kanban</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_slide_kanban" quick_create="0" group_create="0" records_draggable="0" create="0" delete="0">
+                    <field name="id"/>
+                    <field name="title"/>
+                    <field name="no_view"/>
+                    <field name="image_128"/>
+                    <field name="is_feature"/>
+                    <field name="state"/>
+                    <field name="category_ids"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="no_answer"/>
+                    <field name="color"/>
+                    <field name="user_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title mb16">
+                                        <div class="o_primary">
+                                            <a type="edit" class="mr-auto">
+                                                <span><field name="title" class="o_primary"/></span>
+                                            </a>
+                                        </div>
+                                        <div t-if="record.category_ids">
+                                            <field name="category_ids" widget="many2many_tags"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content mt0">
+                                    <div class="row mb16">
+                                        <div class="col-6 o_kanban_primary_left">
+                                            <button class="btn btn-primary" name="send_request" type="object">View request</button>
+                                        </div>
+                                        <div class="col-6 o_kanban_primary_right">
+                                            <div class="d-flex" t-if="record.no_user.raw_value">
+                                                <a name="send_request" type="object" class="mr-auto"><field name="no_user"/> reviews</a>
+                                                <span><field name="no_user"/></span>
+                                            </div>
+                                            <div class="d-flex">
+                                                <span class="mr-auto"><label for="no_view" class="mb0">Views</label></span>
+                                                <field name="no_view"/>
+                                            </div>
+                                            <div class="d-flex" name="info_total_time">
+                                                <span class="mr-auto"><label for="no_like" class="mb0">Likes</label></span>
+                                                <field name="no_like" widget="float_time"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt3">
+                                        <div class="col-4 border-right">
+                                            <a name="action_view_slides" type="object" class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-bold"><field name="no_view"/></span>
+                                                <span class="text-muted">Contents</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-4 border-right">
+                                            <a name="action_redirect_to_members" type="object" class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-bold"><field name="no_like"/></span>
+                                                <span class="text-muted">Attendees</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a name="action_redirect_to_done_members" type="object" class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-bold"><field name="no_answer"/></span>
+                                                <span name="done_members_count_label" class="text-muted">Finished</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="sample_kanban_action1" model="ir.actions.act_window">
+            <field name="name">Sample Kanban 1</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sample_kanban_view_kanban1"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+
+        <record id="sample_kanban_action2" model="ir.actions.act_window">
+            <field name="name">Sample Kanban 2</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sample_kanban_view_kanban2"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+
+        <record id="sample_kanban_action3" model="ir.actions.act_window">
+            <field name="name">Sample Kanban 3</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sample_kanban_view_kanban3"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+
+        <record id="sample_kanban_action4" model="ir.actions.act_window">
+            <field name="name">Sample Kanban 4</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sample_kanban_view_kanban4"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+
+        <record id="sample_kanban_action5" model="ir.actions.act_window">
+            <field name="name">Sample Kanban 5</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sample_kanban_view_kanban5"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+    </data>
+</odoo>

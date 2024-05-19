@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--list view-->
+        <record id="sample_export_excel_list" model="ir.ui.view">
+            <field name="name">sample.other.list</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0">
+                    <field name="title"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="user_id" widget="badge"/>
+                    <button name="export_excel" string="Export Excel" type="object" class="btn-primary"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sample_export_word_list" model="ir.ui.view">
+            <field name="name">sample.other.list</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0">
+                    <field name="title"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="user_id" widget="badge"/>
+                    <button name="export_word" string="Export Word" type="object" class="btn-primary"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="export_excel_action" model="ir.actions.act_window">
+            <field name="name">Export Excel</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="sample_export_excel_list"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+
+        <record id="export_word_action" model="ir.actions.act_window">
+            <field name="name">Export Word</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="sample_export_word_list"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+    </data>
+</odoo>

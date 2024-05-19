@@ -1,0 +1,192 @@
+.page {
+  background: white;
+  font-size: 21px;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.container {
+  background: #fff;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.normal {
+  font-weight: normal !important;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.pd-lr15 {
+  padding: 0 15px;
+}
+
+.pd-30 {
+  padding: 30px;
+}
+
+.pd-0 {
+  padding: 0px !important;
+}
+
+.pd-l50 {
+  padding-left: 50px;
+}
+
+.pd-r20 {
+  padding-right: 20px;
+}
+
+.mr-15 {
+  margin: 15px;
+}
+
+.mr-l20 {
+  margin-left: 20px;
+}
+
+.mr-l30 {
+  margin-left: 30px;
+}
+
+.mr-l35 {
+  margin-left: 35px;
+}
+
+.mr-l10 {
+  margin-left: 10px;
+}
+
+.mr-l65 {
+  margin-left: 65px;
+}
+
+.mr-r10 {
+  margin-right: 10px;
+}
+
+.mr-r20 {
+  margin-right: 20px;
+}
+
+.mr-r30 {
+  margin-right: 30px;
+}
+
+.mr-r35 {
+  margin-right: 35px;
+}
+
+.mr-r65 {
+  margin-right: 65px;
+}
+
+.mr-auto {
+  margin: auto;
+}
+
+.fright {
+  float: right;
+}
+
+.report_table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  th {
+    height: 36px;
+    font-weight: bold;
+    border: 1px solid black;
+    vertical-align: middle;
+    padding: 0 5px;
+  }
+
+  td {
+    border-top: 0;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    vertical-align: middle;
+    padding: 0 5px;
+  }
+}
+
+.table_no_border {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  > thead > tr > th {
+
+    padding: 0 5px;
+  }
+
+  td {
+    padding: 0 5px;
+  }
+}
+
+.page_break {
+  page-break-before: always;
+}
+
+input[type='checkbox'] {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.width-100 {
+  width: 100% !important;
+}
+
+.width-70 {
+  width: 70% !important;
+}
+
+.width-50 {
+  width: 50% !important;
+}
+
+.width-33 {
+  width: 33% !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.ws-nowrap {
+  white-space: nowrap !important;
+}
+
+.border-circle {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background: #fff;
+  border: 2px solid #666;
+  color: #666;
+  font-size: 15px;
+}
+
+.font-s85 {
+  font-size: 85% !important;
+}
+
+.fz19 {
+  font-size: 19px;
+}

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!--change app menu button-->
+    <t t-extend="AppsMenu">
+        <t t-jquery="a.full" t-operation="replace">
+            <a class="full" data-toggle="dropdown" data-display="static" href="#">
+                <i class="fa fa-th"/>
+            </a>
+        </t>
+    </t>
+
+    <!--hide setting user-->
+    <t t-extend="UserMenu.Actions">
+        <t t-jquery="a[data-menu='documentation']" t-operation="replace"/>
+        <t t-jquery="a[data-menu='support']" t-operation="replace"/>
+        <t t-jquery="div[class='dropdown-divider']" t-operation="replace"/>
+        <t t-jquery="a[data-menu='account']" t-operation="replace"/>
+        <t t-jquery="a[data-menu='shortcuts']" t-operation="replace"/>
+    </t>
+
+    <!--hide button export, button dynamic import-->
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button.o_list_export_xlsx" t-operation="replace"/>
+
+        <t t-jquery="div.o_list_buttons" t-operation="append">
+            <t t-if="widget.importTemplates and widget.importTemplates.import_len">
+                <t t-if="widget.importTemplates.import_len > 1">
+                    <div class="btn-group o_dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                data-toggle="dropdown">Import <span class="caret"/></button>
+                        <div class="dropdown-menu o_dropdown_menu" role="menu">
+                            <t t-foreach="widget.importTemplates.name_lst" t-as="record">
+                                <a class="dropdown-item o_import" role="menuitem" t-att-title="record.name or None"
+                                   t-att-data-id="record.id">
+                                    <t t-raw="record.name"/>
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <button class="btn btn-primary o_import" type="button"
+                            t-att-data-id="widget.importTemplates.name_lst[0].id">
+                        <t t-call="web_responsive.icon_button">
+                            <t t-set="icon" t-value="'upload'"/>
+                            <t t-set="label">Import</t>
+                        </t>
+                    </button>
+                </t>
+            </t>
+        </t>
+    </t>
+    
+    <t t-name="CalendarView.custom_buttons">
+        <div class="btn-group button_content"/>
+    </t>
+
+    <!--hide import button-->
+    <t t-extend="ImportView.import_button">
+        <t t-jquery=".btn.btn-secondary.o_button_import" t-operation="replace"/>
+    </t>
+
+    <!--remove content help pivot view-->
+    <div t-extend="View.NoContentHelper">
+        <t t-jquery="p:eq(1)" t-operation="replace">
+            <p/>
+        </t>
+    </div>
+
+    <!--hide o_searchview_more-->
+    <div t-extend="SearchView">
+        <t t-jquery=".o_searchview_more" t-operation="replace">
+            <i title="Search..." role="img" aria-label="Search..." class="o_searchview_icon fa fa-search"></i>
+        </t>
+    </div>
+
+    <t t-extend="mail.chatter.Attachment.Button">
+        <t t-jquery=".fa-paperclip" t-operation="replace">
+            Attachments <i class="fa fa-paperclip"/>
+        </t>
+    </t>
+
+    <t t-name="NotificationMenu">
+        <li class="o_mail_systray_item notification_systray">
+            <a class="dropdown-toggle o-no-caret" data-toggle="dropdown" data-display="static" aria-expanded="false"
+               title="Notifications" href="#" role="button">
+                <i class="fa fa-bell-o" role="img" aria-label="Notifications"/> <span
+                    class="o_notification_counter badge badge-pill"/>
+            </a>
+            <div class="o_mail_systray_dropdown dropdown-menu dropdown-menu-right" role="menu">
+                <div class="o_mail_systray_dropdown_items"/>
+            </div>
+        </li>
+    </t>
+
+    <t t-name="NotificationMenu.Previews">
+        <t t-set="notifications" t-value="widget._notifications"/>
+        <t t-if="_.isEmpty(notifications)">
+            <div class="dropdown-item-text text-center o_no_activity">
+                <span>No Notification.</span>
+            </div>
+        </t>
+        <t t-foreach="notifications" t-as="notification">
+            <div class="o_systray_activity o_mail_preview o_mail_notification_action"
+                 t-att-data-model_name="notification.name" t-att-data-action_xmlid="notification.action_xmlid"
+                 t-att-data-filter='notification.context'>
+                <div t-if="notification.icon" class="o_mail_preview_image o_mail_preview_app">
+                    <img t-att-src="notification.icon" alt="Notification"/>
+                </div>
+                <div class="o_preview_info">
+                    <div class="o_preview_title">
+                        <b class="o_preview_name">
+                            <t t-esc="notification.name"/>
+                        </b>
+                    </div>
+                    <div class="ml16">
+                        <t t-foreach="notification.description" t-as="desc">
+                            <span class="mr16"><t t-esc="desc.count"/> <t t-esc="desc.description"/></span>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="SearchRow">
+        <tr id="search_row" class="sky-search">
+            <t t-if="widget.hasSelectors">
+                <th>
+                    <!--<i id="delete_search" class="fa fa-trash-o" style="cursor:pointer"/>-->
+                    <i id="submit_search" class="fa fa-search" style="cursor:pointer"/>
+                </th>
+                <t t-foreach="sky_fields" t-as="column">
+                    <t t-if="column[2] == 'integer' or column[2] == 'float' or column[4] == 'disable_search'">
+                        <th/>
+                    </t>
+                    <t t-else="">
+                        <th t-if="column[3] == 'handle'"/>
+                        <th t-if="column[2]=='date' or column[2]=='datetime'">
+                            <input t-att-name="column[0]" t-att-id="column[0]+'start_date'"
+                                   t-att-placeholder="'From '+column[1]" class="start_date" type="text"/>
+                            <input t-att-name="column[0]" t-att-id="column[0]+'end_date'"
+                                   t-att-placeholder="'To '+column[1]" class="end_date" type="text"/>
+                        </th>
+                        <th t-if="column[2]=='many2many'">
+                            <t t-set="style" t-value=""/>
+                            <t t-if="column[3] and column[3].length != 0">
+                                <select class="many2many_field" t-att-id="column[0]" t-att-name="column[0]"
+                                        multiple="multiple"
+                                        t-att-style="style"
+                                        t-att-data-placeholder="column[1]">
+                                    <option/>
+                                    <t t-foreach="column[3]" t-as="selection_value">
+                                        <option t-att-value="selection_value[0]"><t t-esc="selection_value[1]"/></option>
+                                    </t>
+                                </select>
+                            </t>
+                        </th>
+                        <th t-if="column[2]=='many2one'">
+                            <t t-if="column[3] and column[3].length != 0">
+                                <select class="many2one_field" t-att-id="column[0]" t-att-name="column[0]"
+                                        t-att-placeholder="column[1]">
+                                    <option/>
+                                    <t t-foreach="column[3]" t-as="selection_value">
+                                        <option t-att-value="selection_value[0]"><t t-esc="selection_value[1]"/></option>
+                                    </t>
+                                </select>
+                            </t>
+                            <t t-else="">
+                                <input t-att-name="column[0]" t-att-id="column[0]" t-att-placeholder="column[1]"
+                                       class="search_field" type="text"/>
+                            </t>
+                        </th>
+                        <th t-if="!(column[2]=='date' or column[2]=='datetime' or column[2]=='selection' or column[2]=='many2one'
+                                                              or column[2]=='many2many') and column[3] != 'handle'">
+                            <input t-att-name="column[0]" t-att-id="column[0]" t-att-placeholder="column[1]"
+                                   class="search_field" type="text"/>
+                        </th>
+                        <th t-if="column[2]=='selection'">
+                            <select class="selection_field" t-att-id="column[0]" t-att-name="column[0]"
+                                    t-att-placeholder="column[1]">
+                                <option value="" hidden="1"><t t-esc="column[1]"/></option>
+                                <t t-foreach="column[3]" t-as="selection_value">
+                                    <option t-att-value="selection_value[0]"><t t-esc="selection_value[1]"/></option>
+                                </t>
+                            </select>
+                        </th>
+                    </t>
+                </t>
+            </t>
+        </tr>
+    </t>
+
+    <t t-name="web.FieldBadge">
+        <span class="badge badge-pill o_field_badge" t-esc="value"/>
+    </t>
+
+    <!--same as js custom-->
+    <t t-name="FieldDomain.content">
+        <div t-if="hasModel" class="o_field_domain_panel">
+            <i class="fa fa-arrow-right" role="img" aria-label="Domain" title="Domain"/>
+
+            <span t-if="isValid" class="">
+                <t t-esc="nbRecords"/> record(s)
+            </span>
+            <span t-else="" class="text-warning" role="alert"><i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"/>
+                Invalid domain</span>
+
+            <button t-if="inDialogEdit" class="btn btn-sm btn-primary o_field_domain_dialog_button">Edit Domain</button>
+        </div>
+        <div t-else="">Select a model to add a filter.</div>
+    </t>
+    
+    <!--&lt;!&ndash;disable edit calendar view, now odoo has no option to do that&ndash;&gt;-->
+    <!--<t t-extend="CalendarView.event.popover">-->
+    <!--    <t t-jquery=".card-footer .btn" t-operation="replace"/>-->
+    <!--</t>-->
+</templates>

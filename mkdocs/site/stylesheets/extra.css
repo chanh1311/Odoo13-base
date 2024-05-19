@@ -1,0 +1,25 @@
+.md-logo{
+	background: white !important;
+    border-radius: 30px !important;
+}
+
+.md-logo > img{
+	height: 1.5rem !important;
+    width: 1.5rem !important;
+}
+
+img.zoomed {
+    transform: scale(1.5);
+}
+
+.md-typeset h1 {
+    margin: 0 !important;
+}
+
+.md-main__inner {
+    margin-top: 0 !important;
+}
+
+.text-center {
+    text-align: center !important;
+}

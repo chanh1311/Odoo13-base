@@ -1,0 +1,64 @@
+# Database
+	search tiếng việt (unaccent có nghĩa là search không dấu) "v13 and below, v14 function is auto enable in postgres"
+		conf: unaccent = True
+		postgresql: CREATE EXTENSION unaccent
+# Quy tắc đặt tên file
+    tên module: do trưởng dự án đặt với tiếp đồng ngữ: lk_{mô tả dự án tiếng anh}. Ví dụ: lk_education
+    tên file model của dự án (nếu của odoo thì giữ nguyên tên bảng của odoo): {mô tả dự án tiếng anh}_{mục đích tạo file}. Ví dụ: education_student
+    tên file report: {mô tả dự án tiếng anh}_{mục đích tạo file}. Ví dụ: education_student_report
+    tên file wizard: {mô tả dự án tiếng anh}_{mục đích tạo file}. Ví dụ: education_add_student_wizard
+    tên file xml (ngoại trừ xml trong folder static/src/xml):
+        tên file view: {tên của file model}_views. Ví dụ: education_student_views
+        tên file report: {tên của file model}_report_views. Ví dụ: education_student_report_views
+        tên file wizard: {tên của file model}_wizard_views. Ví dụ: education_add_student_wizard_views
+    tên file xml (trong folder static/src/xml): {mô tả dự án tiếng anh}_{mục đích tạo file}. Ví dụ: education_dashboard
+    tên file js: {mô tả dự án tiếng anh}_{mục đích tạo file}. Ví dụ: education_dashboard
+# Quy tắc dịch ngôn ngữ
+    đối với python:
+        đối với api (đối với hàm login hoặc các hàm không lấy được thông tin user hiện tại): truyền thêm params language
+        đối với các hàm còn lại: thêm _(""). Ví dụ:
+            raise UserError(_("Incomplete params"))
+            _("Chuyển cho {} xử lý lại".format('Giang'))
+    đối với js:
+        thêm _t("") ví dụ console.log(_t("Incomplete params"));
+            ví dụ `Xử lý ${'Giang'}`
+# Code python
+    # xử lý database:
+        ưu tiên sử dụng orm thay cho sql
+        sử dụng các hàm dựng sẵn của odoo: filtered, sorted, mapped
+    # Xử lý chuỗi:
+        không sử dụng cộng chuỗi ("error incomplete data " + giá_trị) -> "error incomplete data {}".format(giá_trị)
+    # get path:
+        from pathlib import Path
+        directory_path = Path(__file__).parent.parent
+# Code xử lý
+	Giao diện:
+		Bố trí giao diện trong form xen kẽ 2 cột và 1 cột: xem dự án ql tài sản
+		Hiển thị wizard/ action vào button print/ action của odoo: binding_model_id, binding_view_types, binding_type trong ir_actions
+        Hiển thị giá trị khi quick create:
+            odoo sẽ điền giá trị vào trường name (mặc định) -> sử dụng option create_name_field: {tên trường} trong xml field liên kết 
+        Hiển thị trường năm: xem widget year: xem dự án ql tài sản
+	In: 
+		Hiển thị wizard trước khi in: xem action_xml action_product_price_list
+		Thêm giá trị vào report: xem dự án ql tài sản
+			Tạo AbstractModel: report.module_name.report_template_name
+			Thêm hàm _get_report_values
+	Phân quyền:
+		Nếu 2 menu chung 1 model
+			thêm giá trị vào thuộc tính value trong available_function
+			sửa hàm get_available_function: xem dự án ql tài sản
+# Chức năng có sẵn lk_base (xem menu Additional Function) hoặc pm khác:
+    generate_name: generate sequence name: model_name, prefix (Ex: {HS}00001), number_fill, reset_number, field (default is name)
+    currency2text: translate money to text
+    get_datetime_wo_tz: return datetime (without timezone) by user timezone
+    get_datetime_tz: get datetime now with server timezone
+    convert_report: export word or pdf report based on template.
+        require LibreOffice (if convert to other extension): xem dự án hocphi
+    export word theo mẫu: xem lk_base
+    export excel theo mẫu: xem lk_base
+    check file based on mimetype: xem dự án yeep: yeep.learning.file (preview_ext)
+    dynamic import: input form and system will generate import function (model dynamic.import)
+# 3rd Module
+	restful: add token to api (need check if can get current security (ir_rule) or not?) xem dự án yeep
+	spiffy_theme_backend: xem dự án yeep
+	web_domain_field: dynamic domain based on compute field (more power than onchange) xem dự án yeep

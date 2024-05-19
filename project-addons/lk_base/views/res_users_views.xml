@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--tree view-->
+        <record id="view_users_tree_inherit" model="ir.ui.view">
+            <field name="name">res.users.tree.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='login']" position="after">
+                    <field name="new_group_id"/>
+                    <field name="ip"/>
+                    <field name="interval_number"/>
+                    <field name="interval_type"/>
+                    <field name="login_calendar_id"/>
+                    <field name="multiple_sessions_block"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_users_state_tree_inherit" model="ir.ui.view">
+            <field name="name">res.users.tree.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="auth_signup.view_users_state_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-info"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--form view-->
+        <!--for administrator-->
+        <record id="view_users_form_inherit_lk_base" model="ir.ui.view">
+            <field name="name">res.users.preferences.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='login']" position="after">
+                    <field name="new_group_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_users_form_simple" model="ir.ui.view">
+            <field name="name">res.users.form.simple</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <form string="Users">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" class="oe_stat_button" name="toggle_active" icon="fa-archive"
+                                    attrs="{'invisible': [('active', '=', True)]}">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                            <field name="active" invisible="1"/>
+                        </div>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="active_partner" required="0" readonly="1" invisible="1"/>
+                        <field name="image_1920" widget='image' class="oe_avatar"
+                               options='{"preview_image": "image_128"}'/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                            <field name="email" invisible="1"/>
+                            <label for="login" class="oe_edit_only"/>
+                            <h2>
+                                <field name="login"/>
+                            </h2>
+                            <group>
+                                <field name="partner_id" readonly="1" required="0" invisible="1"/>
+                            </group>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="phone"/>
+                            </group>
+                            <group>
+                                <field name="new_group_id" required="1" context="{'default_is_customized': True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="session_page" string="Session">
+                                <group name="time_duration" string="Timeout Duration">
+                                    <group>
+                                        <label for="interval_number" string="Session Duration"/>
+                                        <div>
+                                            <field name="interval_number" class="oe_inline"/>
+                                            <field name="interval_type" class="oe_inline"/>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <field name="multiple_sessions_block"/>
+                                    </group>
+                                </group>
+                                <group name="access_schedule" string="System Access Schedule">
+                                    <field name="login_calendar_id"/>
+                                </group>
+                                <group name="session_group" string="Session">
+                                    <field name="session_ids" readonly="1" nolabel="1" domain="[('user_id', '=', uid)]">
+                                        <tree edit="0" create="0" decoration-muted="logged_in == False"
+                                              decoration-info="logged_in == True">
+                                            <field name="logged_in"/>
+                                            <field name="ip"/>
+                                            <field name="multiple_sessions_block"/>
+                                            <field name="date_login"/>
+                                            <field name="session_duration"/>
+                                            <field name="date_expiration"/>
+                                            <field name="date_logout"/>
+                                            <field name="logout_type"/>
+                                            <field name="user_kill_id"/>
+                                            <field name="unsuccessful_message"/>
+                                            <button name="action_close_session" string="Kill Session" type="object"
+                                                    icon="fa-remove" attrs="{'invisible':[('logged_in','=',False)]}"/>
+                                        </tree>
+                                        <form edit="0" create="0" delete="0">
+                                            <group col="4">
+                                                <field name="logged_in"/>
+                                                <field name="ip"/>
+                                                <field name="remote_tz"/>
+                                                <field name="multiple_sessions_block"/>
+                                                <field name="date_login"/>
+                                                <field name="session_duration"/>
+                                                <field name="date_expiration"/>
+                                                <field name="date_logout"/>
+                                                <field name="logout_type"/>
+                                                <field name="user_kill_id"/>
+                                                <field name="unsuccessful_message"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Limit Access">
+                                <group string="Allowed IP">
+                                    <group>
+                                        <field name="allow_ip"/>
+                                    </group>
+                                    <field name="ip_ids" readonly="1" nolabel="1">
+                                        <tree>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--change preference view in user menu top navbar-->
+        <record id="view_users_form_inherit_mail_notification_alert_inherit" model="ir.ui.view">
+            <field name="name">res.users.preferences.form.notification.alert.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="mail_bot.view_users_form_inherit_mail_notification_alert"/>
+            <field name="arch" type="xml">
+                <xpath expr="//widget[@name='notification_alert']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--for administrator-->
+        <record id="view_users_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.preferences.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='preferences']" position="replace">
+                    <group name="preferences">
+                        <group>
+                            <field name="email" widget="email" readonly="0"/>
+                            <field name="notification_type" widget="radio" readonly="0" invisible="1"/>
+                            <field name="odoobot_state" readonly="0" invisible="1"/>
+                        </group>
+                        <group invisible="1">
+                            <label for="lang"/>
+                            <div class="o_row">
+                                <field name="lang" readonly="0"/>
+                                <button
+                                        type="action"
+                                        name="%(base.res_lang_act_window)d"
+                                        class="btn-sm btn-link mb4 fa fa-globe"
+                                        aria-label="More languages"
+                                        groups="base.group_system"
+                                        title="More languages"
+                                />
+                            </div>
+                            <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}"
+                                   readonly="0"/>
+                            <field name="tz_offset" invisible="1"/>
+                        </group>
+                    </group>
+                    <group name="session_timeout" string="Timeout Duration">
+                        <label for="interval_number" string="Session Duration"/>
+                        <div>
+                            <field name="interval_number" class="oe_inline" readonly="1"/>
+                            <field name="interval_type" class="oe_inline" readonly="1"/>
+                        </div>
+                        <field name="multiple_sessions_block" readonly="1"/>
+                    </group>
+                    <group name="system_access" string="System Access Schedule">
+                        <field name="login_calendar_id" readonly="1"/>
+                    </group>
+                    <group name="session" string="Session">
+                        <field name="session_ids" readonly="1" nolabel="1" domain="[('user_id', '=', uid)]">
+                            <tree edit="0" create="0" delete="0" decoration-muted="logged_in == False"
+                                  decoration-info="logged_in == True">
+                                <field name="logged_in"/>
+                                <field name="ip"/>
+                                <field name="multiple_sessions_block"/>
+                                <field name="date_login"/>
+                                <field name="session_duration"/>
+                                <field name="date_expiration"/>
+                                <field name="date_logout"/>
+                                <field name="logout_type"/>
+                                <field name="user_kill_id"/>
+                                <field name="unsuccessful_message"/>
+                                <button name="action_close_session" string="Kill Session" type="object"
+                                        icon="fa-remove" attrs="{'invisible':[('logged_in','=',False)]}"/>
+                            </tree>
+                            <form edit="0" create="0" delete="0">
+                                <group col="4">
+                                    <field name="logged_in"/>
+                                    <field name="ip"/>
+                                    <field name="remote_tz"/>
+                                    <field name="multiple_sessions_block"/>
+                                    <field name="date_login"/>
+                                    <field name="session_duration"/>
+                                    <field name="date_expiration"/>
+                                    <field name="date_logout"/>
+                                    <field name="logout_type"/>
+                                    <field name="user_kill_id"/>
+                                    <field name="unsuccessful_message"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </xpath>
+                <xpath expr="//group[@name='signature']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group[@name='preference_contact']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--search view-->
+        <record id="view_users_search_inherit" model="ir.ui.view">
+            <field name="name">res.users.search.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='share']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//filter[@name='no_share']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="action_res_users_simple" model="ir.actions.act_window">
+            <field name="name">Users</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"disable_menu": "groupBy"}</field>
+            <field name="domain">[('id', '>', 5)]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('base.view_users_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_users_form_simple')})]"/>
+            <field name="search_view_id" ref="base.view_users_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+    </data>
+</odoo>

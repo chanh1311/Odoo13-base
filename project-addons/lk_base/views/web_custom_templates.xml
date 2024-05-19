@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="//link[last()]" position="after">
+                <link rel="stylesheet" href="/lk_base/static/lib/tabulator/css/tabulator.css"/>
+                <link rel="stylesheet" type="text/scss" href="/lk_base/static/src/scss/web_backend.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/lk_base/static/src/scss/web_responsive.scss"/>
+            </xpath>
+            <xpath expr="script[last()]" position="after">
+                <script type="text/javascript" src="/lk_base/static/lib/charts/Chart.js"/>
+                <script type="text/javascript" src="/lk_base/static/lib/charts/Chart.bundle.js"/>
+                <script type="text/javascript" src="/lk_base/static/lib/charts/chartjs-plugin-datalabels.js"/>
+                <script type="text/javascript" src="/lk_base/static/lib/zxcvbn/zxcvbn.min.js"/>
+                <script type="text/javascript" src="/lk_base/static/lib/tabulator/js/tabulator.js"/>
+                <script type="text/javascript" src="/lk_base/static/src/js/signup_policy.js"></script>
+                <script type="text/javascript" src="/lk_base/static/src/js/password_gauge.js"/>
+                <script type="text/javascript" src="/lk_base/static/src/js/basic_fields.js"/>
+                <script type="text/javascript" src="/lk_base/static/src/js/views.js"/>
+                <script type="text/javascript" src="/lk_base/static/src/js/web_responsive.js"/>
+                <script type="text/javascript" src="/lk_base/static/src/js/advanced_search.js"/>
+                <script type="text/javascript" src="/lk_base/static/src/js/widget.js"></script>
+                <script type="text/javascript" src="/lk_base/static/src/js/list_field_color.js"></script>
+                <script type="text/javascript" src="/lk_base/static/src/js/sample_dashboard.js"></script>
+            </xpath>
+        </template>
+        <template id="assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/lk_base/static/src/scss/web_frontend.scss"/>
+            </xpath>
+        </template>
+        <template id="assets_common" inherit_id="web.report_assets_common">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/scss" href="/lk_base/static/src/scss/report.scss"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

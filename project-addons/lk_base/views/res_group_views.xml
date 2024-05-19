@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--tree view-->
+        <record id="view_groups_tree" model="ir.ui.view">
+            <field name="name">res.groups.tree</field>
+            <field name="model">res.groups</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="full_name" groups="lk_base.make_invisible"/>
+                    <field name="name"/>
+                    <field name="is_manager"/>
+                    <field name="interval_number"/>
+                    <field name="interval_type"/>
+                    <field name="login_calendar_id"/>
+                    <field name="multiple_sessions_block"/>
+                    <button name="action_set_visible_menu" groups="lk_base.make_invisible"
+                            class="btn btn-secondary border" type="object" string="Set Visible Menu"/>
+                    <button name="action_reset_function" groups="lk_base.make_invisible"
+                            confirm="Are you sure to execute 'Reset Function'?"
+                            class="btn btn-secondary border" type="object" string="Reset Function"/>
+                    <button name="action_missing_access" groups="lk_base.make_invisible"
+                            confirm="Are you sure to execute 'Edit Missing Access'?"
+                            class="btn btn-secondary border" type="object" string="Edit Missing Access"/>
+                    <button name="action_reset_rule" groups="lk_base.make_invisible"
+                            confirm="Are you sure to execute 'Reset Rule'?"
+                            class="btn btn-secondary border" type="object" string="Reset Rule"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--form view-->
+        <record id="view_groups_form_inherit" model="ir.ui.view">
+            <field name="name">res.groups.form.inherit</field>
+            <field name="model">res.groups</field>
+            <field name="inherit_id" ref="base.view_groups_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group" position="replace">
+                    <group name="general_info">
+                        <group>
+                            <field name="name"/>
+                            <field name="category_id" invisible="1"/>
+                            <field name="share" invisible="1"/>
+                            <field name="is_customized" invisible="1"/>
+                        </group>
+                    </group>
+                    <group col="4" name="access">
+                        <label for="is_manager"/>
+                        <div class="o_row col-5 pl-0">
+                            <field name="is_manager" required="1"/>
+                        </div>
+                    </group>
+                    <group name="session_info">
+                        <group string="Timeout Duration">
+                            <label for="interval_number" string="Session Duration"/>
+                            <div>
+                                <field name="interval_number" class="oe_inline"/>
+                                <field name="interval_type" class="oe_inline"/>
+                            </div>
+                            <field name="multiple_sessions_block"/>
+                        </group>
+                        <group string="System Access Schedule">
+                            <field name="login_calendar_id"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <xpath expr="//notebook" position="replace">
+                    <notebook>
+                        <page name="user" string="Users">
+                            <field name="users" context="{'search_default_no_share':1}"/>
+                        </page>
+                        <page name="function" string="Access Rights">
+                            <field name="function_access">
+                                <tree editable="bottom" class="tree_no_open" delete="0" create="0">
+                                    <field name="name"/>
+                                    <field name="check_all"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_create" attrs="{'readonly': [('is_disable','=',True)]}" force_save="1"/>
+                                    <field name="perm_write" attrs="{'readonly': [('is_disable','=',True)]}" force_save="1"/>
+                                    <field name="perm_unlink" attrs="{'readonly': [('is_disable','=',True)]}" force_save="1"/>
+                                    <field name="is_disable" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="inherit_group" string="Inherited" invisible="1">
+                            <label for="implied_ids"
+                                   string="Users added to this group are automatically added in the following groups."/>
+                            <field name="implied_ids"/>
+                        </page>
+                        <page name="menu" string="Menus" invisible="1">
+                            <field name="menu_access"/>
+                        </page>
+                        <page name="view" string="Views" invisible="1">
+                            <field name="view_access"/>
+                        </page>
+                        <page name="access" string="Access Rights" invisible="1">
+                            <field name="model_access">
+                                <tree string="Access Rights" editable="top">
+                                    <field name="name"/>
+                                    <field name="model_id"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="rule" string="Record Rules" invisible="1">
+                            <field name="rule_groups">
+                                <tree string="Record Rules" editable="top">
+                                    <field name="name"/>
+                                    <field name="model_id"/>
+                                    <field name="domain_force"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="base.action_res_groups" model="ir.actions.act_window">
+            <field name="domain">[('is_customized', '=', 1)]</field>
+            <field name="context">{'default_is_customized': True, 'search_default_no_share': 0, 'disable_menu':
+                'filter,groupBy'}
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create" style="display:none"/>
+                <p style="display:none">None</p>
+            </field>
+        </record>
+    </data>
+</odoo>

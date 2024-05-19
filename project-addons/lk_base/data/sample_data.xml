@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="sample_kanban_category_1" model="sample.kanban.category">
+            <field name="name">Information</field>
+        </record>
+
+        <record id="sample_kanban_category_2" model="sample.kanban.category">
+            <field name="name">Technical</field>
+        </record>
+
+        <record id="sample_kanban_category_3" model="sample.kanban.category">
+            <field name="name">Accounting</field>
+        </record>
+
+        <record id="sample_kanban_1" model="sample.kanban">
+            <field name="title">PM2.5 pollution still problematic across Việt Nam</field>
+            <field name="author">VNS</field>
+            <field name="no_view">10</field>
+            <field name="is_feature" eval="True"/>
+            <field file="lk_base/static/src/img/sample_view/kanban1.jpeg" name="image" type="base64"/>
+            <field name="state">new</field>
+            <field name="category_ids" eval="[(6, 0, [sample_kanban_category_1, sample_kanban_category_2])]"/>
+            <field name="from_date" eval="datetime.now() - timedelta(days=2)"/>
+            <field name="to_date" eval="datetime.now() + timedelta(days=2)"/>
+            <field name="no_user">5</field>
+            <field name="no_like">8</field>
+            <field name="no_answer">13</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <record id="sample_kanban_2" model="sample.kanban">
+            <field name="title">Vietnamese agriculture aims for green growth</field>
+            <field name="author">FNS</field>
+            <field name="no_view">0</field>
+            <field name="is_feature" eval="False"/>
+            <field file="lk_base/static/src/img/sample_view/kanban2.jpeg" name="image" type="base64"/>
+            <field name="state">reject</field>
+            <field name="category_ids" eval="[(6, 0, [sample_kanban_category_3])]"/>
+            <field name="from_date" eval="datetime.now() - timedelta(days=3)"/>
+            <field name="to_date" eval="datetime.now() + timedelta(days=3)"/>
+            <field name="no_user">20</field>
+            <field name="no_like">18</field>
+            <field name="no_answer">4</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <record id="sample_kanban_3" model="sample.kanban">
+            <field name="title">Four people killed in flash floods</field>
+            <field name="author">Giang Le</field>
+            <field name="no_view">10</field>
+            <field name="is_feature" eval="True"/>
+            <field file="lk_base/static/src/img/sample_view/kanban3.jpg" name="image" type="base64"/>
+            <field name="state">publish</field>
+            <field name="from_date" eval="datetime.now() - timedelta(days=1)"/>
+            <field name="to_date" eval="datetime.now() + timedelta(days=1)"/>
+            <field name="no_user">15</field>
+            <field name="no_like">18</field>
+            <field name="no_answer">33</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--list view-->
+        <record id="sample_other_view_list" model="ir.ui.view">
+            <field name="name">sample.other.list</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0" decoration-warning="is_feature != True" decoration-bf="is_feature == True" decoration-danger="state=='reject'" decoration-muted="state=='publish'">
+                    <field name="title"/>
+                    <field name="no_view" optional="hide"/>
+                    <field name="is_feature" optional="hide" widget="priority"/>
+                    <field name="state" optional="show" widget="badge"
+                           options="{'fg_color': '#4CAF50: state==\'new\'; #5e98d1: state==\'request\''}"/>
+                    <field name="category_ids" widget="many2many_tags"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="no_user"/>
+                    <field name="no_like"/>
+                    <field name="user_id" widget="badge"/>
+                    <button name="send_request" string="Send request" type="object" class="btn-primary"/>
+                    <button name="sign_now" title="Send request" class="btn-link" type="object" icon="fa-check"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--form view-->
+        <record id="sample_other_view_form" model="ir.ui.view">
+            <field name="name">sample.other.form</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <form create="0" edit="1" delete="0">
+                    <header>
+                        <button name="send_request" class="oe_highlight" states="new,request,publish,reject" string="Send Request" type="object"/>
+                        <button name="sign_now" class="btn btn-secondary"
+                                attrs="{'invisible': [('state', 'not in', ('new','request','publish','reject'))]}" string="Sign Now" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="title" class="oe_edit_only"/>
+                            <h1>
+                                <field name="title"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="from_date"/>
+                                <field name="author"/>
+                                <field name="user_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            </group>
+                            <group>
+                                <field name="to_date"/>
+                                <field name="category_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Information">
+                                <group>
+                                    <group>
+                                        <field name="no_like"/>
+                                        <field name="no_view"/>
+                                    </group>
+                                    <group>
+                                        <field name="no_answer"/>
+                                        <field name="no_user"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--calendar view-->
+        <record id="sample_other_view_calendar" model="ir.ui.view">
+            <field name="name">sample.other.calendar</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <calendar date_start="from_date" date_stop="to_date" event_open_popup="true" mode="month" color="user_id" quick_add="false">
+                    <field name="title"/>
+                    <field name="author"/>
+                    <field name="category_ids"/>
+                    <field name="user_id" avatar_field="image_128"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--graph view-->
+        <record id="sample_other_view_graph" model="ir.ui.view">
+            <field name="name">sample.other.graph</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <graph type="line">
+                    <field name="author"/>
+                    <field name="no_like" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!--pivot view-->
+        <record id="sample_other_view_pivot" model="ir.ui.view">
+            <field name="name">sample.other.pivot</field>
+            <field name="model">sample.kanban</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="author" type="row"/>
+                    <field name="from_date" type="col"/>
+                    <field name="no_like" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="sample_other_action" model="ir.actions.act_window">
+            <field name="name">Sample other</field>
+            <field name="res_model">sample.kanban</field>
+            <field name="view_mode">tree,form,graph,calendar,pivot</field>
+            <field name="view_id" ref="lk_base.sample_other_view_list"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+    </data>
+</odoo>

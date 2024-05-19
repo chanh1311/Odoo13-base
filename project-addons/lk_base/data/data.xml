@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="auth_password_policy.minlength" model="ir.config_parameter">
+            <field name="key">auth_password_policy.minlength</field>
+            <field name="value" type="int">5</field>
+        </record>
+
+        <record id="ir_cron_user_session_validator" model="ir.cron" forcecreate="True">
+            <field name="name">Sessions validator</field>
+            <field name="model_id" ref="model_ir_sessions"/>
+            <field name="state">code</field>
+            <field name="code">model.validate_sessions()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="backup_scheduler" model="ir.cron">
+            <field name="interval_type">days</field>
+            <field name="name">Backup scheduler</field>
+            <field name="numbercall">-1</field>
+            <field name="priority">5</field>
+            <field name="doall">False</field>
+            <field name="active">False</field>
+            <field name="interval_number">1</field>
+            <field name="model_id" ref="model_db_backup"/>
+            <field name="state">code</field>
+            <field name="code">model.schedule_backup()</field>
+        </record>
+
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Invisible</field>
+        </record>
+
+        <record id="base.partner_root" model="res.partner">
+            <field name="name">System</field>
+            <field name="email">system@example.com</field>
+        </record>
+
+        <!--change symbol in vnd-->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'base'), ('name', '=', 'VND')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="base.VND" model="res.currency">
+            <field name="name">VND</field>
+            <field name="symbol">VND</field>
+            <field name="rounding">1</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'base'), ('name', '=', 'VND')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <!--change decimal in product price-->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'product'), ('name', '=', 'decimal_price')]"/>
+            </function>
+            <value eval="{'noupdate': False}" />
+        </function>
+
+        <record forcecreate="True" id="product.decimal_price" model="decimal.precision">
+            <field name="name">Product Price</field>
+            <field name="digits">0</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'product'), ('name', '=', 'decimal_price')]"/>
+            </function>
+            <value eval="{'noupdate': True}" />
+        </function>
+
+        <!--change currency of company-->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'base'), ('name', '=', 'main_company')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="base.main_company" model="res.company">
+            <field name="currency_id" ref="base.VND"/>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'base'), ('name', '=', 'main_company')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <!--change paper format-->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'base'), ('name', '=', 'paperformat_euro')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="base.paperformat_euro" model="report.paperformat">
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">7</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'base'), ('name', '=', 'paperformat_euro')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <record id="paperformat_euro_land" model="report.paperformat">
+            <field name="name">A4 Landscape</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">7</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!--add add group invisible to admin user-->
+        <record id="base.user_admin" model="res.users">
+            <field name="groups_id" eval="[(4, ref('make_invisible'))]"/>
+            <field name="odoobot_state">disabled</field>
+        </record>
+
+        <record id="ir_cron_schedule_send_notification" model="ir.cron">
+            <field name="name">Schedule send notification</field>
+            <field name="interval_number">2</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_notification_content"/>
+            <field name="code">model.schedule_send_notification()</field>
+            <field name="state">code</field>
+        </record>
+
+
+                <!--    Import data Vĩnh Long    -->
+        <record id="1" model="res.country.state.district">
+            <field name="id">1</field>
+            <field name="code">vl_tpvl</field>
+            <field name="name">Thành phố Vĩnh Long</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="2" model="res.country.state.district">
+            <field name="id">2</field>
+            <field name="code">vl_vl</field>
+            <field name="name">Huyện Vũng Liêm</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="3" model="res.country.state.district">
+            <field name="id">3</field>
+            <field name="code">vl_lh</field>
+            <field name="name">Huyện Long Hồ</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="4" model="res.country.state.district">
+            <field name="id">4</field>
+            <field name="code">vl_tb</field>
+            <field name="name">Huyện Tam Bình</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="5" model="res.country.state.district">
+            <field name="id">5</field>
+            <field name="code">vl_to</field>
+            <field name="name">Huyện Trà Ôn</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="6" model="res.country.state.district">
+            <field name="id">6</field>
+            <field name="code">vl_bm</field>
+            <field name="name">Thị xã Bình Minh</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="7" model="res.country.state.district">
+            <field name="id">7</field>
+            <field name="code">vl_mt</field>
+            <field name="name">Huyện Mang Thít</field>
+            <field name="state_id">1104</field>
+        </record>
+
+        <record id="8" model="res.country.state.district">
+            <field name="id">8</field>
+            <field name="code">vl_bt</field>
+            <field name="name">Huyện Bình Tân</field>
+            <field name="state_id">1104</field>
+        </record>
+        <!-- Phường -->
+        <!--  TPVL   -->
+        <record id="9" model="res.country.state.commune">
+            <field name="code">tpvl_p1</field>
+            <field name="name">Phường 1</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="10" model="res.country.state.commune">
+            <field name="code">tpvl_p2</field>
+            <field name="name">Phường 2</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="11" model="res.country.state.commune">
+            <field name="code">tpvl_p3</field>
+            <field name="name">Phường 3</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="12" model="res.country.state.commune">
+            <field name="code">tpvl_p4</field>
+            <field name="name">Phường 4</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="13" model="res.country.state.commune">
+            <field name="code">tpvl_p5</field>
+            <field name="name">Phường 5</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="14" model="res.country.state.commune">
+            <field name="code">tpvl_p7</field>
+            <field name="name">Phường 7</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="15" model="res.country.state.commune">
+            <field name="code">tpvl_p8</field>
+            <field name="name">Phường 8</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="16" model="res.country.state.commune">
+            <field name="code">tpvl_tanhoa</field>
+            <field name="name">Phường Tân Hoà</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="17" model="res.country.state.commune">
+            <field name="code">tpvl_tanhoi</field>
+            <field name="name">Phường Tân Hội</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="18" model="res.country.state.commune">
+            <field name="code">tpvl_tanngai</field>
+            <field name="name">Phường Tân Ngãi</field>
+            <field name="district_id">1</field>
+        </record>
+
+        <record id="19" model="res.country.state.commune">
+            <field name="code">tpvl_truongan</field>
+            <field name="name">Phường Trường An</field>
+            <field name="district_id">1</field>
+        </record>
+        <!-- Phường -->
+        <!--  Bình minh   -->
+        <record id="20" model="res.country.state.commune">
+            <field name="code">bm_cv</field>
+            <field name="name">Phường Cái Vồn</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="21" model="res.country.state.commune">
+            <field name="code">bm_dt</field>
+            <field name="name">Phường Đông Thuận</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="22" model="res.country.state.commune">
+            <field name="code">bm_tp</field>
+            <field name="name">Phường Thành Phước</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="23" model="res.country.state.commune">
+            <field name="code">bm_db</field>
+            <field name="name">Xã Đông Bình</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="24" model="res.country.state.commune">
+            <field name="code">bm_dt1</field>
+            <field name="name">Xã Đông Thành</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="25" model="res.country.state.commune">
+            <field name="code">bm_dt2</field>
+            <field name="name">Xã Đông Thạnh</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="26" model="res.country.state.commune">
+            <field name="code">bm_mh</field>
+            <field name="name">Xã Mỹ Hòa</field>
+            <field name="district_id">6</field>
+        </record>
+
+        <record id="27" model="res.country.state.commune">
+            <field name="code">bm_ta</field>
+            <field name="name">Xã Thuận An</field>
+            <field name="district_id">6</field>
+        </record>
+        <!-- Huyện bình tân   -->
+        <record id="28" model="res.country.state.commune">
+            <field name="code">bt_tq</field>
+            <field name="name">Thị trấn Tân Quới</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="29" model="res.country.state.commune">
+            <field name="code">bt_mt</field>
+            <field name="name">Xã Mỹ Thuận</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="30" model="res.country.state.commune">
+            <field name="code">bt_nvt</field>
+            <field name="name">Xã Nguyễn Văn Thảnh</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="31" model="res.country.state.commune">
+            <field name="code">bt_tat</field>
+            <field name="name">Xã Tân An Thạnh</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="32" model="res.country.state.commune">
+            <field name="code">bt_tb</field>
+            <field name="name">Xã Tân Bình</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="33" model="res.country.state.commune">
+            <field name="code">bt_th</field>
+            <field name="name">Xã Tân Hưng</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="34" model="res.country.state.commune">
+            <field name="code">bt_tl</field>
+            <field name="name">Xã Tân Lược</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="35" model="res.country.state.commune">
+            <field name="code">bt_tt</field>
+            <field name="name">Xã Tân Thành</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="36" model="res.country.state.commune">
+            <field name="code">bt_tl1</field>
+            <field name="name">Xã Thành Lợi</field>
+            <field name="district_id">8</field>
+        </record>
+
+        <record id="37" model="res.country.state.commune">
+            <field name="code">bt_tt1</field>
+            <field name="name">Xã Thành Trung</field>
+            <field name="district_id">8</field>
+        </record>
+        <!-- Huyện Long Hồ   -->
+
+        <record id="38" model="res.country.state.commune">
+            <field name="code">lh_ttlh</field>
+            <field name="name">Thị trấn Long Hồ</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="39" model="res.country.state.commune">
+            <field name="code">lh_ab</field>
+            <field name="name">Xã An Bình</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="40" model="res.country.state.commune">
+            <field name="code">lh_bhp</field>
+            <field name="name">Xã Bình Hoà Phước</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="41" model="res.country.state.commune">
+            <field name="code">lh_dp</field>
+            <field name="name">Xã Đồng Phú</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="42" model="res.country.state.commune">
+            <field name="code">lh_hn</field>
+            <field name="name">Xã Hoà Ninh</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="43" model="res.country.state.commune">
+            <field name="code">lh_hp</field>
+            <field name="name">Xã Hoà Phú</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="44" model="res.country.state.commune">
+            <field name="code">lh_lh</field>
+            <field name="name">Xã Lộc Hoà</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="45" model="res.country.state.commune">
+            <field name="code">lh_la</field>
+            <field name="name">Xã Long An</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="46" model="res.country.state.commune">
+            <field name="code">lh_lp</field>
+            <field name="name">Xã Long Phước</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="47" model="res.country.state.commune">
+            <field name="code">lh_pd</field>
+            <field name="name">Xã Phú Đức</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="48" model="res.country.state.commune">
+            <field name="code">lh_ph</field>
+            <field name="name">Xã Phước Hậu</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="49" model="res.country.state.commune">
+            <field name="code">lh_th</field>
+            <field name="name">Xã Tân Hạnh</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="50" model="res.country.state.commune">
+            <field name="code">lh_td</field>
+            <field name="name">Xã Thanh Đức</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="51" model="res.country.state.commune">
+            <field name="code">lh_tq</field>
+            <field name="name">Xã Thạnh Quới</field>
+            <field name="district_id">3</field>
+        </record>
+
+        <record id="52" model="res.country.state.commune">
+            <field name="code">lh_pq</field>
+            <field name="name">Xã Phú Quới</field>
+            <field name="district_id">3</field>
+        </record>
+        <!--    Huyện Mang Thít    -->
+        <record id="53" model="res.country.state.commune">
+            <field name="code">mt_ttcn</field>
+            <field name="name">Thị trấn Cái Nhum</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="54" model="res.country.state.commune">
+            <field name="code">mt_ap</field>
+            <field name="name">Xã An Phước</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="55" model="res.country.state.commune">
+            <field name="code">mt_bp</field>
+            <field name="name">Xã Bình Phước</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="56" model="res.country.state.commune">
+            <field name="code">mt_ca</field>
+            <field name="name">Xã Chánh An</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="57" model="res.country.state.commune">
+            <field name="code">mt_ht</field>
+            <field name="name">Xã Hòa Tịnh</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="58" model="res.country.state.commune">
+            <field name="code">mt_lm</field>
+            <field name="name">Xã Long Mỹ</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="59" model="res.country.state.commune">
+            <field name="code">mt_ma</field>
+            <field name="name">Xã Mỹ An</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="60" model="res.country.state.commune">
+            <field name="code">mt_mp</field>
+            <field name="name">Xã Mỹ Phước</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="61" model="res.country.state.commune">
+            <field name="code">mt_np</field>
+            <field name="name">Xã Nhơn Phú</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="62" model="res.country.state.commune">
+            <field name="code">mt_tah</field>
+            <field name="name">Xã Tân An Hội</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="63" model="res.country.state.commune">
+            <field name="code">mt_tl</field>
+            <field name="name">Xã Tân Long</field>
+            <field name="district_id">7</field>
+        </record>
+
+        <record id="64" model="res.country.state.commune">
+            <field name="code">mt_tlh</field>
+            <field name="name">Xã Tân Long Hội</field>
+            <field name="district_id">7</field>
+        </record>
+        <!--    Huyện Tam Bình   -->
+        <record id="65" model="res.country.state.commune">
+            <field name="code">tb_tttb</field>
+            <field name="name">Thị trấn Tam Bình</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="66" model="res.country.state.commune">
+            <field name="code">tb_bn</field>
+            <field name="name">Xã Bình Ninh</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="67" model="res.country.state.commune">
+            <field name="code">tb_hl</field>
+            <field name="name">Xã Hậu Lộc</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="68" model="res.country.state.commune">
+            <field name="code">tb_hh</field>
+            <field name="name">Xã Hòa Hiệp</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="69" model="res.country.state.commune">
+            <field name="code">tb_hl1</field>
+            <field name="name">Xã Hòa Lộc</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="70" model="res.country.state.commune">
+            <field name="code">tb_ht</field>
+            <field name="name">Xã Hòa Thạnh</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="71" model="res.country.state.commune">
+            <field name="code">tb_lm</field>
+            <field name="name">Xã Loan Mỹ</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="72" model="res.country.state.commune">
+            <field name="code">tb_lp</field>
+            <field name="name">Xã Long Phú</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="73" model="res.country.state.commune">
+            <field name="code">tb_ml</field>
+            <field name="name">Xã Mỹ Lộc</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="74" model="res.country.state.commune">
+            <field name="code">tb_mtt</field>
+            <field name="name">Xã Mỹ Thạnh Trung</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="75" model="res.country.state.commune">
+            <field name="code">tb_nt</field>
+            <field name="name">Xã Ngãi Tứ</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="76" model="res.country.state.commune">
+            <field name="code">tb_pl</field>
+            <field name="name">Xã Phú Lộc</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="77" model="res.country.state.commune">
+            <field name="code">tb_pt</field>
+            <field name="name">Xã Phú Thịnh</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="78" model="res.country.state.commune">
+            <field name="code">tb_sp</field>
+            <field name="name">Xã Song Phú</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="79" model="res.country.state.commune">
+            <field name="code">tb_tl</field>
+            <field name="name">Xã Tân Lộc</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="80" model="res.country.state.commune">
+            <field name="code">tb_tp</field>
+            <field name="name">Xã Tân Phú</field>
+            <field name="district_id">4</field>
+        </record>
+
+        <record id="81" model="res.country.state.commune">
+            <field name="code">tb_tl1</field>
+            <field name="name">Xã Tường Lộc</field>
+            <field name="district_id">4</field>
+        </record>
+        <!--    Huyện Trà Ôn   -->
+        <record id="82" model="res.country.state.commune">
+            <field name="code">to_ttto</field>
+            <field name="name">Thị trấn Trà Ôn</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="83" model="res.country.state.commune">
+            <field name="code">to_hb</field>
+            <field name="name">Xã Hoà Bình</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="84" model="res.country.state.commune">
+            <field name="code">to_ht</field>
+            <field name="name">Xã Hựu Thành</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="85" model="res.country.state.commune">
+            <field name="code">to_lst</field>
+            <field name="name">Xã Lục Sĩ Thành</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="86" model="res.country.state.commune">
+            <field name="code">to_nb</field>
+            <field name="name">Xã Nhơn Bình</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="87" model="res.country.state.commune">
+            <field name="code">to_pt</field>
+            <field name="name">Xã Phú Thành</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="88" model="res.country.state.commune">
+            <field name="code">to_tm</field>
+            <field name="name">Xã Tân Mỹ</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="89" model="res.country.state.commune">
+            <field name="code">to_tm1</field>
+            <field name="name">Xã Thiện Mỹ</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="90" model="res.country.state.commune">
+            <field name="code">to_th</field>
+            <field name="name">Xã Thới Hoà</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="91" model="res.country.state.commune">
+            <field name="code">to_tt</field>
+            <field name="name">Xã Thuận Thới</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="92" model="res.country.state.commune">
+            <field name="code">to_tt1</field>
+            <field name="name">Xã Tích Thiện</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="93" model="res.country.state.commune">
+            <field name="code">to_tc</field>
+            <field name="name">Xã Trà Côn</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="94" model="res.country.state.commune">
+            <field name="code">to_vx</field>
+            <field name="name">Xã Vĩnh Xuân</field>
+            <field name="district_id">5</field>
+        </record>
+
+        <record id="95" model="res.country.state.commune">
+            <field name="code">to_xh</field>
+            <field name="name">Xã Xuân Hiệp</field>
+            <field name="district_id">5</field>
+        </record>
+        <!--    Huyện Vũng Liêm   -->
+        <record id="96" model="res.country.state.commune">
+            <field name="code">vl_ttvl</field>
+            <field name="name">Thị trấn Vũng Liêm</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="97" model="res.country.state.commune">
+            <field name="code">vl_hn</field>
+            <field name="name">Xã Hiếu Nghĩa</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="98" model="res.country.state.commune">
+            <field name="code">vl_hnh</field>
+            <field name="name">Xã Hiếu Nhơn</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="99" model="res.country.state.commune">
+            <field name="code">vl_hp</field>
+            <field name="name">Xã Hiếu Phụng</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="100" model="res.country.state.commune">
+            <field name="code">vl_ht</field>
+            <field name="name">Xã Hiếu Thành</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="101" model="res.country.state.commune">
+            <field name="code">vl_ht1</field>
+            <field name="name">Xã Hiếu Thuận</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="102" model="res.country.state.commune">
+            <field name="code">vl_qa</field>
+            <field name="name">Xã Quới An</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="103" model="res.country.state.commune">
+            <field name="code">vl_qt</field>
+            <field name="name">Xã Quới Thiện</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="104" model="res.country.state.commune">
+            <field name="code">vl_tal</field>
+            <field name="name">Xã Tân An Luông</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="105" model="res.country.state.commune">
+            <field name="code">vl_tqt</field>
+            <field name="name">Xã Tân Quới Trung</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="106" model="res.country.state.commune">
+            <field name="code">vl_tb</field>
+            <field name="name">Xã Thanh Bình</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="107" model="res.country.state.commune">
+            <field name="code">vl_ta</field>
+            <field name="name">Xã Trung An</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="108" model="res.country.state.commune">
+            <field name="code">vl_tch</field>
+            <field name="name">Xã Trung Chánh</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="109" model="res.country.state.commune">
+            <field name="code">vl_th</field>
+            <field name="name">Xã Trung Hiệp</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="110" model="res.country.state.commune">
+            <field name="code">vl_th1</field>
+            <field name="name">Xã Trung Hiếu</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="111" model="res.country.state.commune">
+            <field name="code">vl_tn</field>
+            <field name="name">Xã Trung Ngãi</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="112" model="res.country.state.commune">
+            <field name="code">vl_tnn</field>
+            <field name="name">Xã Trung Nghĩa</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="113" model="res.country.state.commune">
+            <field name="code">vl_tt</field>
+            <field name="name">Xã Trung Thành</field>
+            <field name="district_id">2</field>
+        </record>
+
+        <record id="114" model="res.country.state.commune">
+            <field name="code">vl_ttd</field>
+            <field name="name">Xã Trung Thành Đông</field>
+            <field name="district_id">2</field>
+        </record>
+        <record id="115" model="res.country.state.commune">
+            <field name="code">vl_ttt</field>
+            <field name="name">Xã Trung Thành Tây</field>
+            <field name="district_id">2</field>
+        </record>
+
+
+    </data>
+</odoo>

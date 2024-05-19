@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--tree view-->
+        <record id="dynamic_import_tree" model="ir.ui.view">
+            <field name="name">dynamic.import.tree</field>
+            <field name="model">dynamic.import</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="model_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--form view-->
+        <!--dynamic import-->
+        <record id="dynamic_import_form" model="ir.ui.view">
+            <field name="name">dynamic.import.form</field>
+            <field name="model">dynamic.import</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="model_id" options="{'no_create': 1, 'no_create_edit': 1, 'no_open': 1}"/>
+                                <field name="sub_model_id" options="{'no_create': 1, 'no_create_edit': 1, 'no_open': 1}"/>
+                            </group>
+                            <group>
+                                <field name="is_update"/>
+                                <field name="template" filename="template_name"/>
+                                <field name="template_name" invisible="1" force_save="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="import_line" string="Detail">
+                                <field name="line_ids" context="{'default_model_id': model_id}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="field_id" options="{'no_create': 1, 'no_create_edit': 1, 'no_open': 1}"/>
+                                        <field name="field_type"/>
+                                        <field name="is_required"/>
+                                        <field name="model_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <div style="margin-top: 4px;">
+                                    <h3>Help with Import Instruction</h3>
+                                    <p>
+                                        You need to input data to form view. System will auto create function and display import button.
+                                        - If you import only 1 model: you need create excel template file with each row is one record in database:
+                                        + Row 1: title1, title2, title3
+                                        + Row 2: field1, field2, field3
+                                        - If you import model and submodel: you need create excel template file as below:
+                                        + Row 1: "Index", title1, title2, title3, subtitle1, subtitle2, subtitle3
+                                        + Row 2: 1, field1, field2, field3, subfield1, subfield2, subfield3
+                                        + Row 3: 1, "", "", "", subfield1, subfield2, subfield3
+                                        + Row 4: 2, field1, field2, field3, subfield1, subfield2, subfield3
+                                        - There are new Index column, same index mean same record
+                                    </p>
+                                </div>
+                            </page>
+                            <page name="import_sub_model" string="Sub Model">
+                                <field name="sub_model_ids" context="{'default_model_id': sub_model_id}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="field_id" options="{'no_create': 1, 'no_create_edit': 1, 'no_open': 1}"/>
+                                        <field name="field_type"/>
+                                        <field name="is_required"/>
+                                        <field name="model_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter"/>
+                </form>
+            </field>
+        </record>
+
+        <!--dynamic import execute-->
+        <record id="dynamic_import_execute_form" model="ir.ui.view">
+            <field name="name">dynamic.import.execute.form</field>
+            <field name="model">dynamic.import.execute</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="import_id" invisible="1"/>
+                            <field name="import_file" filename="import_filename"/>
+                            <field name="import_filename" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="template" filename="template_name"/>
+                            <field name="template_name" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Import" name="read_import" type="object" class="oe_highlight"/>
+                        <button string="Hủy bỏ" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--search view-->
+        <record id="dynamic_import_search" model="ir.ui.view">
+            <field name="name">dynamic.import.search</field>
+            <field name="model">dynamic.import</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="sub_model_id"/>
+                </search>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="action_dynamic_import" model="ir.actions.act_window">
+            <field name="name">Dynamic Import</field>
+            <field name="res_model">dynamic.import</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"disable_menu": "filter,groupBy"}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+    </data>
+</odoo>

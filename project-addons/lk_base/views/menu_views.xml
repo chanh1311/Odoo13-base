@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--discuss top menu-->
+        <record model="ir.ui.menu" id="mail.menu_root_discuss">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+        <!--account top menu-->
+        <record model="ir.ui.menu" id="account.menu_finance">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+        <!--app top menu-->
+        <record model="ir.ui.menu" id="base.menu_management">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+        <!--settings top menu-->
+        <record model="ir.ui.menu" id="base.menu_administration">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+        <menuitem id="function_menu"
+                  name="Additional Function"
+                  sequence="100"
+                  web_icon="lk_base,static/description/function.png"
+                  groups="lk_base.make_invisible"/>
+        <menuitem id="menu_sample"
+                  name="Sample View"
+                  sequence="0"
+                  parent="function_menu"/>
+        <menuitem id="menu_kanban_view1"
+                  sequence="0"
+                  action="sample_kanban_action1"
+                  parent="menu_sample"/>
+        <menuitem id="menu_kanban_view2"
+                  sequence="1"
+                  action="sample_kanban_action2"
+                  parent="menu_sample"/>
+        <menuitem id="menu_kanban_view3"
+                  sequence="2"
+                  action="sample_kanban_action3"
+                  parent="menu_sample"/>
+        <menuitem id="menu_kanban_view4"
+                  sequence="3"
+                  action="sample_kanban_action4"
+                  parent="menu_sample"/>
+        <menuitem id="menu_kanban_view5"
+                  sequence="4"
+                  action="sample_kanban_action5"
+                  parent="menu_sample"/>
+        <menuitem id="menu_other_view"
+                  sequence="5"
+                  action="sample_other_action"
+                  parent="menu_sample"/>
+        <menuitem id="menu_dashboard_view"
+                  sequence="6"
+                  action="sample_dashboard_action"
+                  parent="menu_sample"/>
+        <menuitem id="menu_export_report"
+                  name="Export Report"
+                  sequence="1"
+                  parent="function_menu"/>
+        <menuitem id="menu_export_excel"
+                  sequence="0"
+                  action="export_excel_action"
+                  parent="menu_export_report"/>
+        <menuitem id="menu_export_word"
+                  sequence="1"
+                  action="export_word_action"
+                  parent="menu_export_report"/>
+        <menuitem id="menu_add_function"
+                  name="Additional Function"
+                  sequence="2"
+                  parent="function_menu"/>
+        <menuitem id="menu_res_users"
+                  action="lk_base.action_res_users_simple"
+                  sequence="0"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_res_groups"
+                  action="base.action_res_groups"
+                  sequence="1"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_notification_manager"
+                  action="lk_base.notification_content_action"
+                  sequence="2"
+                  parent="lk_base.menu_add_function"/>
+        <menuitem id="menu_system_log"
+                  action="lk_base.system_log_action"
+                  sequence="3"
+                  parent="lk_base.menu_add_function"/>
+        <menuitem id="menu_res_config_settings"
+                  action="res_config_settings_action"
+                  sequence="4"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_backup"
+                  action="lk_base.action_backup"
+                  sequence="5"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_res_country_state_district"
+                  action="lk_base.action_res_country_state_district"
+                  sequence="6"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_res_country_state_commune"
+                  action="lk_base.action_res_country_state_commune"
+                  sequence="7"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_res_country_state_hamlet"
+                  action="lk_base.action_res_country_state_hamlet"
+                  sequence="8"
+                  parent="menu_add_function"/>
+        <menuitem id="menu_dynamic_import"
+                  action="action_dynamic_import"
+                  sequence="9"
+                  parent="lk_base.menu_add_function"/>
+        <menuitem id="menu_excel_template"
+                  action="action_excel_template"
+                  sequence="10"
+                  parent="lk_base.menu_add_function"/>
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dynamic_import,dynamic_import,model_dynamic_import,base.group_user,1,1,1,1
+access_dynamic_import_line,dynamic_import_line,model_dynamic_import_line,base.group_user,1,1,1,1
+access_dynamic_import_sub_model,dynamic_import_sub_model,model_dynamic_import_sub_model,base.group_user,1,1,1,1
+access_ir_sessions,access_ir_sessions,model_ir_sessions,base.group_user,1,1,1,1
+access_resource_calendar,access_resource_calendar,resource.model_resource_calendar,base.group_user,1,1,1,1
+access_resource_calendar_attendance,resource_calendar_attendance,resource.model_resource_calendar_attendance,base.group_user,1,1,1,1
+access_ir_property,ir_property,base.model_ir_property,base.group_user,1,1,1,1
+access_res_users_ip,res_users_ip,model_res_users_ip,base.group_user,1,1,1,1
+access_res_users_pass_history,access_res_users_pass_history,model_res_users_pass_history,base.group_user,1,0,1,0
+access_res_country_state_district,res_country_state_district,model_res_country_state_district,base.group_user,1,1,1,1
+access_res_country_state_commune,res_country_state_commune,model_res_country_state_commune,base.group_user,1,1,1,1
+access_res_country_state_hamlet,res_country_state_hamlet,model_res_country_state_hamlet,base.group_user,1,1,1,1
+access_db_backup,db_backup,model_db_backup,base.group_user,1,1,1,1
+access_notification_content,notification_content,model_notification_content,base.group_user,1,1,1,1
+access_notification_setting,notification_setting,model_notification_setting,base.group_user,1,1,1,1
+access_excel_template,excel_template,model_excel_template,base.group_user,1,1,1,1
+access_excel_template_detail,excel_template_detail,model_excel_template_detail,base.group_user,1,1,1,1
+access_ir_module_category_group_user,ir_module_category group_user,base.model_ir_module_category,base.group_user,1,1,1,1
+access_ir_actions_client,ir_actions_client all,base.model_ir_actions_client,base.group_user,1,1,1,1
+access_function_menu,access_function_menu,model_function_menu,base.group_user,1,1,1,1
+access_system_log,access_system_log,model_system_log,base.group_user,1,1,1,1
+access_res_users_device,access_res_users_device,model_res_users_device,base.group_user,1,1,1,1
+access_res_users_connect_setting,access_res_users_connect_setting,model_res_users_connect_setting,base.group_user,1,1,1,1
+access_res_users_otp,access_res_users_otp,model_res_users_otp,base.group_user,1,1,1,1
+access_sample_kanban,access_sample_kanban,model_sample_kanban,base.group_user,1,1,1,1
+access_sample_kanban_category,access_sample_kanban_category,model_sample_kanban_category,base.group_user,1,1,1,1

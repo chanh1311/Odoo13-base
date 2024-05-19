@@ -1,0 +1,115 @@
+site_name: Quản lý học phí Ngôi Sao
+dev_addr: '127.0.0.1:8800'
+use_directory_urls: false  # controls the style used for linking to pages /api-guide/ or /api-guide/index.html
+nav:
+  - Home: index.md
+  - Quy trình:
+      - Thêm học sinh vào lớp: website/quy_trinh/them_hoc_sinh/index.md
+      - Tạo sổ học phí: website/quy_trinh/tao_so_hp/index.md
+      - Thu học phí: website/quy_trinh/thu_hp/index.md
+      - Dịch vụ tiềm năng: website/quy_trinh/dv_tiem_nang/index.md
+      - Khách hàng tiềm năng: website/quy_trinh/kh_tiem_nang/index.md
+      - Báo cáo nợ khó đòi: website/quy_trinh/bao_cao_no/index.md
+  - Hàng ngày:
+      - Học sinh: website/hang_ngay/hoc_sinh/index.md
+      - Giáo viên - nhân viên: website/hang_ngay/gv_nv/index.md
+      - Thu học phí: website/hang_ngay/thu_hoc_phi/index.md
+      - Điểm danh dịch vụ chính: website/hang_ngay/dd_dv_chinh/index.md
+      - Điểm danh dịch vụ phụ: website/hang_ngay/dd_dv_phu/index.md
+  - Hàng tháng:
+      - Biểu học phí: website/hang_thang/bieu_hoc_phi/index.md
+      - Đăng ký dịch vụ: website/hang_thang/dk_dich_vu/index.md
+      - Sổ học phí: website/hang_thang/so_hoc_phi/index.md
+      - Khách hàng tiềm năng: website/hang_thang/kh_tiem_nang/index.md
+      - Dịch vụ tiềm năng: website/hang_thang/dv_tiem_nang/index.md
+      - Ngày nghỉ: website/hang_thang/ngay_nghi/index.md
+  - Hàng năm:
+      - Trường học: website/hang_nam/truong_hoc/index.md
+      - Năm học: website/hang_nam/nam_hoc/index.md
+      - Khối học: website/hang_nam/khoi_hoc/index.md
+      - Lớp học: website/hang_nam/lop_hoc/index.md
+      - Dịch vụ chính: website/hang_nam/dich_vu_chinh/index.md
+      - Dịch vụ phụ: website/hang_nam/dich_vu_phu/index.md
+      - Gói dịch vụ phí đưa rước: website/hang_nam/dich_vu_dua_ruoc/index.md
+      - Gói dịch vụ phí đồ dùng: website/hang_nam/dich_vu_do_dung/index.md
+      - Chương trình chiết khấu: website/hang_nam/chiet_khau/index.md
+  - Báo cáo:
+      - Báo cáo tổng hợp nợ theo từng học sinh: website/bao_cao/no/index.md
+      - Báo cáo tổng hợp nợ khó đòi: website/bao_cao/no_kho_doi/index.md
+      - Báo cáo tổng hợp doanh thu theo trường: website/bao_cao/doanh_thu_truong/index.md
+      - Báo cáo tổng hợp doanh thu theo dịch vụ: website/bao_cao/doanh_thu_dich_vu/index.md
+  - Hệ thống:
+      - Người dùng: website/he_thong/nguoi_dung/index.md
+      - Nhóm người dùng: website/he_thong/nhom/index.md
+      - Nhật ký hệ thống: website/he_thong/nhat_ky_ht/index.md
+      - Sao lưu dữ liệu: website/he_thong/sao_luu/index.md
+      - Tỉnh/TP: website/he_thong/tinh/index.md
+      - Quận/Huyện: website/he_thong/huyen/index.md
+      - Xã/Phường/TT: website/he_thong/xa/index.md
+
+theme:
+  name: material
+  logo: 'img/logoliink.png'
+  favicon: 'img/logoliink.png'
+plugins:
+  - macros
+  - i18n:
+      default_language: vi
+      docs_structure: folder
+      languages:
+        vi:
+          name: Tiếng Việt
+      nav_translations:
+        vi:
+          Home: Trang chủ
+          Website: Ứng dụng web
+          General function: Chức năng chung
+          Login: Đăng nhập
+          User References: Tùy chỉnh cá nhân
+          Dashboard: Trang chủ
+          News: Tin tức
+          News Category: Danh mục tin tức
+          Announcement: Thông báo
+          Announcement Type: Loại thông báo
+          Speak Up: Góp ý
+          Speak Up Type: Loại Góp ý
+          Survey: Khảo sát
+          Result: Kết quả
+          Question Pool: Câu hỏi
+          Question Pool Category: Danh mục câu hỏi
+          E-Learning: Thư viện điện tử
+          Training: Đào tạo
+          Learning Category: Loại tài liệu
+          Helpdesk: Trợ giúp
+          Helpdesk Category: Danh mục trợ giúp
+          Hot question: Câu hỏi nổi bật
+          FAQs: Câu hỏi thường gặp
+          Broadcast: Tin nhắn hệ thống
+          Users: Người dùng
+          HR Employee: Nhân viên HR
+          Group Control: Quản lý nhóm
+          Access Control: Kiểm soát Truy nhập
+          Global Configuration: Cấu hình Toàn cầu
+          Company Configuration: Cấu hình công ty
+          Languages: Ngôn ngữ
+          Import Translation: Nhập bản dịch
+          Export Translation: Xuất bản dịch
+          Translated Terms: Thuật ngữ đã dịch
+          Generate Missing Terms: Tạo Thuật ngữ bị thiếu
+          System Log: Nhật ký hệ thống
+          Notification: Thông báo
+          Company: Công ty
+          Mobile App: Ứng dụng di động
+          Question Category: Danh mục câu hỏi
+          Learning: Thư viện điện tử
+          Setting: Thiết lập
+          My Training: Đào tạo của tôi
+          Video Training: Video đào tạo
+          Preferences: Tùy chỉnh
+extra:
+  generator: false
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - stylesheets/extra.js
+#copyright: Copyright &copy; 2023 by Liink Co., Ltd

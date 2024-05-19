@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="SampleDashboard">
+        <style>
+            html .o_web_client > .o_action_manager {
+                overflow-y: auto;
+            }
+        </style>
+        <div class="container-fluid col-sm-12 col-md-12 col-lg-12 custom_dashboard" id="sample_dashboard">
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <select class="form-control mr-2 w-auto inline-block" id="select_project">
+                        <option disabled="1" selected="1" value="">Project</option>
+                    </select>
+                    <select class="form-control w-auto inline-block mr-2" id="select_task">
+                        <option disabled="1" selected="1" value="">Task</option>
+                    </select>
+                    <input class="form-control w-auto inline-block mr-2" id="date_range" type="text" name="daterange"/>
+                    <button class="btn btn_normal">Bộ lọc</button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="d_card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-small font-weight-bold text-uppercase text-gray-800 mb-1">Earnings (Monthly)</div>
+                                        <div class="h3 mb-0 font-weight-bold"><span t-esc="widget.result.earning_value"/></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-calendar fa-2x text-primary"></i>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row align-items-center">
+                                    <div class="col text-right">
+                                        <a class="text-small btn btn-link">View Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom bg-primary"/>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="d_card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-small font-weight-bold text-uppercase text-gray-800 mb-1">Requests</div>
+                                        <div class="h3 mb-0 font-weight-bold"><span t-esc="widget.result.request_value"/></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-comments-o fa-2x text-warning"></i>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row align-items-center">
+                                    <div class="col text-right">
+                                        <a class="text-small btn btn-link">View Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom bg-warning"/>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="d_card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-small font-weight-bold text-uppercase text-gray-800 mb-1">Sales</div>
+                                        <div class="h3 mb-0 font-weight-bold"><span t-esc="widget.result.sale_value"/></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-shopping-cart fa-2x text-success"></i>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row align-items-center">
+                                    <div class="col text-right">
+                                        <a class="text-small btn btn-link">View Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom bg-success"/>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="d_card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-small font-weight-bold text-uppercase text-gray-800 mb-1">New User</div>
+                                        <div class="h3 mb-0 font-weight-bold"><span t-esc="widget.result.user_value"/></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-user fa-2x text-info"></i>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row align-items-center">
+                                    <div class="col text-right">
+                                        <a class="text-small btn btn-link">View Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom bg-info"/>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-12 col-md-7">
+                    <div class="custom_chart h-100" id="line_chart">
+                        <div class="chart_title row no-margin">
+                            <div class="col-sm-8">
+                                <h4 class="inline-block">Target vs Actual</h4>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <div class="dropdown inline-block">
+                                    <button class="btn btn-link dropdown-toggle no_icon" type="button" id="dropdownMenu"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"/>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu" aria-label="Settings"
+                                         aria-labelledby="dropdownMenu">
+                                        <a role="menuitem" class="dropdown-item" href="#">Print Excel</a>
+                                        <a role="menuitem" class="dropdown-item" href="#">View Detail</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown inline-block custom_dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Period
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Today</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">This year</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart_content mt-5">
+                            <canvas id="LineChart"/>
+                        </div>
+                        <div id="LineChart-legends" class="mb-5"/>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-5">
+                    <div class="custom_chart h-100" id="doughnut_chart">
+                        <div class="chart_title row no-margin">
+                            <div class="col-sm-8">
+                                <h4 class="inline-block">Evaluate vs Report</h4>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <div class="dropdown inline-block">
+                                    <button class="btn btn-link dropdown-toggle no_icon" type="button" id="dropdownMenu"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"/>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu" aria-label="Settings"
+                                         aria-labelledby="dropdownMenu">
+                                        <a role="menuitem" class="dropdown-item" href="#">Print Excel</a>
+                                        <a role="menuitem" class="dropdown-item" href="#">View Detail</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown inline-block custom_dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Period
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Today</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">This year</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart_content mt-5">
+                            <canvas id="DoughnutChart"/>
+                        </div>
+                        <div id="DoughnutChart-legends" class="mb-5"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-12 col-md-7">
+                    <div class="custom_chart h-100" id="bar_chart">
+                        <div class="chart_title row no-margin">
+                            <div class="col-sm-8">
+                                <h4 class="inline-block">Sale Opportunities</h4>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <div class="dropdown inline-block">
+                                    <button class="btn btn-link dropdown-toggle no_icon" type="button" id="dropdownMenu"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"/>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu" aria-label="Settings"
+                                         aria-labelledby="dropdownMenu">
+                                        <a role="menuitem" class="dropdown-item" href="#">Print Excel</a>
+                                        <a role="menuitem" class="dropdown-item" href="#">View Detail</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown inline-block custom_dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Period
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Today</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">This year</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart_content mt-5">
+                            <canvas id="BarChart"/>
+                        </div>
+                        <div id="BarChart-legends" class="mb-5"/>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-5">
+                    <div class="custom_chart h-100" id="doughnut_chart">
+                        <div class="chart_title row no-margin">
+                            <div class="col-sm-8">
+                                <h4 class="inline-block">Task Evaluation</h4>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <div class="dropdown inline-block">
+                                    <button class="btn btn-link dropdown-toggle no_icon" type="button" id="dropdownMenu"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"/>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu" aria-label="Settings"
+                                         aria-labelledby="dropdownMenu">
+                                        <a role="menuitem" class="dropdown-item" href="#">Print Excel</a>
+                                        <a role="menuitem" class="dropdown-item" href="#">View Detail</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown inline-block custom_dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Period
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Today</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">This year</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart_content mt-5">
+                            <canvas id="PieChart"/>
+                        </div>
+                        <div id="PieChart-legends" class="mb-5"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-sm-12">
+                    <div class="report_container o_list_view" t-if="widget.result.table_body">
+                        <div class="table-responsive">
+                            <table class="table-sm table o_list_table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tiêu đề</th>
+                                        <th>Khách hàng</th>
+                                        <th>Dự án</th>
+                                        <th>Ngày tiếp nhận</th>
+                                        <th>Hạn chót</th>
+                                        <th>Người phụ trách</th>
+                                        <th>Độ ưu tiên</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ngày hoàn thành</th>
+                                        <th class="text-right">Thời gian xử lý (h)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="widget.result.table_body" t-as="data">
+                                        <td><a href="#"><t t-esc="data['name']"/></a></td>
+                                        <td><t t-esc="data['customer']"/></td>
+                                        <td><t t-esc="data['project']"/></td>
+                                        <td><t t-esc="data['date']"/></td>
+                                        <td><t t-esc="data['deadline']"/></td>
+                                        <td>
+                                            <span class="badge badge-pill o_field_badge o_field_widget"><t t-esc="data['employee']"/></span>
+                                        </td>
+                                        <td>
+                                            <div class="o_favorite o_field_widget">
+                                                <i class="fa fa-star"/>
+                                                <i class="fa fa-star-o"/>
+                                                <i class="fa fa-star-o"/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-pill o_field_badge o_field_widget bg-success"><t t-esc="data['state']"/></span>
+                                        </td>
+                                        <td><t t-esc="data['completion_date']"/></td>
+                                        <td class="text-right"><t t-esc="data['hour']"/></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td/><td/><td/><td/><td/><td/><td/><td/><td/><td class="text-right"><t t-esc="widget.result.table_total_hour"/></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

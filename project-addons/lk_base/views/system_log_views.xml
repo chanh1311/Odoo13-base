@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--tree view-->
+        <record id="system_log_view_tree" model="ir.ui.view">
+            <field name="name">system.log.view.tree</field>
+            <field name="model">system.log</field>
+            <field name="arch" type="xml">
+                <tree edit="0" create="0" delete="0">
+                    <field name="create_date" icon="fa-clock-o"/>
+                    <field name="type"/>
+                    <field name="function"/>
+                    <field name="user_id" widget="badge"/>
+                    <field name="description"/>
+                    <field name="company_id" widget="badge" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--search view-->
+        <record id="system_log_view_search" model="ir.ui.view">
+            <field name="name">system.log.view.search</field>
+            <field name="model">system.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="user_id"/>
+                    <field name="description"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <filter string="Current Year" name="year"
+                            domain="[('create_date', '&lt;', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-12-31 %H:%M:%S')),
+                            ('create_date', '&gt;', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-01-01 %H:%M:%S'))]"/>
+                    <group expand="1" string="Group By">
+                        <filter name="month" string="Month" context="{'group_by':'create_date:month'}"/>
+                        <filter name="type" string="Type" context="{'group_by':'type'}"/>
+                        <filter name="function" string="Function" context="{'group_by':'function'}"/>
+                        <filter string='Company' name="company" domain="[]" context="{'group_by': 'company_id'}"
+                                groups="base.group_multi_company"/>
+                    </group>
+                    <searchpanel>
+                        <field name="type" icon="fa-bars"/>
+                        <field name="function" icon="fa-list"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <!--action view-->
+        <record id="system_log_action" model="ir.actions.act_window">
+            <field name="name">System Log</field>
+            <field name="res_model">system.log</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{"search_default_year":1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face o_hidden"/>
+            </field>
+        </record>
+    </data>
+</odoo>
